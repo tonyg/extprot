@@ -9,6 +9,12 @@ else
 LIBTOOL=libtool --tag=CC
 endif
 
+ifeq ($(NO_BIGNUMS),)
+EXTRA_LIBS += -lgmp
+else
+CFLAGS += -DEXTPROT_NO_BIGNUMS
+endif
+
 CFLAGS += -Wall -D_XOPEN_SOURCE=500 -DEXTPROT_VERSION='"0.0.1"' -g
 
 all: $(LIBEXTPROT_TARGET) test_extprot
@@ -16,7 +22,7 @@ all: $(LIBEXTPROT_TARGET) test_extprot
 clean:
 	rm -f *.extprot.out
 	$(LIBTOOL) --mode=clean rm -f $(LIBEXTPROT_TARGET) $(LIBEXTPROT_OBJECTS) test_extprot
-	rm -rf .libs
+	rm -rf .libs test_extprot.dSYM
 
 install: all
 
@@ -27,7 +33,7 @@ $(LIBEXTPROT_TARGET): $(LIBEXTPROT_OBJECTS) $(LIBEXTPROT_HEADERS)
 	$(LIBTOOL) --mode=compile $(CC) $(CFLAGS) -c $<
 
 test_extprot: test_extprot.c $(LIBEXTPROT_TARGET)
-	$(LIBTOOL) --mode=link $(CC) $(CFLAGS) -o $@ $< -lextprot -lgmp
+	$(LIBTOOL) --mode=link $(CC) $(CFLAGS) -o $@ $< -lextprot $(EXTRA_LIBS)
 
 test: test_extprot
 	./test_extprot *.extprot

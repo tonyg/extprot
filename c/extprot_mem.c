@@ -149,9 +149,9 @@ Extprot_Object *extprot_vint(Extprot_Pool *pool, Extprot_Tag tag) {
   return o;
 }
 #else
-Extprot_Object *extprot_vint(Extprot_Pool *pool, Extprot_Tag tag, int64_t num) {
+Extprot_Object *extprot_vint(Extprot_Pool *pool, Extprot_Tag tag, uint64_t num) {
   ALLOCO(EXTPROT_VINT);
-  o->body.bits64_long = num;
+  o->body.vint = num;
   return o;
 }
 #endif

@@ -98,17 +98,17 @@ static void dump(int indent, Extprot_Object *o) {
     case EXTPROT_HTUPLE:
       fputc('h', stdout);
     case EXTPROT_TUPLE:
-      printf("tuple %u\n", o->body.tuple.length);
+      printf("tuple %u\n", (unsigned) o->body.tuple.length);
       dump_n(indent + 2, o->body.tuple.vec, o->body.tuple.length);
       break;
 
     case EXTPROT_BYTES:
-      printf("binary %u\n", o->body.bytes.length);
+      printf("binary %u\n", (unsigned) o->body.bytes.length);
       iprintf(indent + 2, ">>>%*s<<<\n", o->body.bytes.length, o->body.bytes.vec);
       break;
 
     case EXTPROT_ASSOC:
-      printf("assoc %u\n", o->body.tuple.length);
+      printf("assoc %u\n", (unsigned) o->body.tuple.length);
       dump_2n(indent + 2, o->body.tuple.vec, o->body.tuple.length);
       break;
 
@@ -162,7 +162,7 @@ static void write_one(Extprot_Object *o, char const *testName) {
   }
 
   len = extprot_compute_length(o);
-  printf("Encoding as %u bytes...\n", len);
+  printf("Encoding as %u bytes...\n", (unsigned) len);
   out_buffer = malloc(len);
   extprot_encode(o, out_buffer);
   fwrite(out_buffer, len, 1, f);

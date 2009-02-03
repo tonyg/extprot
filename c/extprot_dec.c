@@ -137,7 +137,7 @@ static Extprot_Error decode1(Extprot_Decoder_State *state,
 #else
       {
 	uint64_t value;
-	CHECK(read_vint_64(&value));
+	CHECK(read_vint_64(state, &value));
 	SET_ACC(state, extprot_vint(state->pool, tag, value));
 	return Extprot_NoError;
       }
